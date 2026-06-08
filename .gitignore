@@ -1,0 +1,20 @@
+# Maven target directory
+target/
+
+# IDE files and folders
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+bin/
+
+# OS temporary files
+.DS_Store
+Thumbs.db
+
+# Application logs
+*.log
+
+# Local configuration overrides
+application-local.properties
