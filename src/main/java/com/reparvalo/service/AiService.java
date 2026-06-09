@@ -9,7 +9,6 @@ import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.parser.BeanOutputParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Map;
 
 /**
  * Service orchestrating AI interactions with Google Gemini via Spring AI.
