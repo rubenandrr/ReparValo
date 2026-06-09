@@ -21,3 +21,4 @@ application-local.properties
 
 # File of test API key
 test.py
+test_direct.py
