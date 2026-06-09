@@ -27,7 +27,7 @@ public class CarPartRepositoryTest {
     public void testSaveAndFindCarPartByName() {
         // Given
         CarPart part = CarPart.builder()
-                .name("rear_right_door")
+                .name("test_part")
                 .newPriceChf(550.0)
                 .usedPriceChf(180.0)
                 .repairHours(3.5)
@@ -35,11 +35,11 @@ public class CarPartRepositoryTest {
         carPartRepository.save(part);
 
         // When
-        Optional<CarPart> foundPart = carPartRepository.findByName("rear_right_door");
+        Optional<CarPart> foundPart = carPartRepository.findByName("test_part");
 
         // Then
         assertThat(foundPart).isPresent();
-        assertThat(foundPart.get().getName()).isEqualTo("rear_right_door");
+        assertThat(foundPart.get().getName()).isEqualTo("test_part");
         assertThat(foundPart.get().getNewPriceChf()).isEqualTo(550.0);
         assertThat(foundPart.get().getUsedPriceChf()).isEqualTo(180.0);
         assertThat(foundPart.get().getRepairHours()).isEqualTo(3.5);

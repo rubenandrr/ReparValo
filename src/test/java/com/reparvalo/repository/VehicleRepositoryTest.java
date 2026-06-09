@@ -28,20 +28,20 @@ public class VehicleRepositoryTest {
     public void testSaveAndFindVehicleIgnoreCase() {
         // Given
         Vehicle vehicle = Vehicle.builder()
-                .make("Tesla")
-                .model("Model 3")
+                .make("Audi")
+                .model("A4")
                 .baseValueChf(46000.0)
                 .depreciationRate(0.18)
                 .build();
         vehicleRepository.save(vehicle);
 
         // When - Querying with different letter casing
-        Optional<Vehicle> foundVehicle = vehicleRepository.findByMakeAndModelIgnoreCase("teSLa", "mODel 3");
+        Optional<Vehicle> foundVehicle = vehicleRepository.findByMakeIgnoreCaseAndModelIgnoreCase("aUDi", "a4");
 
         // Then
         assertThat(foundVehicle).isPresent();
-        assertThat(foundVehicle.get().getMake()).isEqualTo("Tesla");
-        assertThat(foundVehicle.get().getModel()).isEqualTo("Model 3");
+        assertThat(foundVehicle.get().getMake()).isEqualTo("Audi");
+        assertThat(foundVehicle.get().getModel()).isEqualTo("A4");
         assertThat(foundVehicle.get().getBaseValueChf()).isEqualTo(46000.0);
         assertThat(foundVehicle.get().getDepreciationRate()).isEqualTo(0.18);
     }
@@ -52,7 +52,7 @@ public class VehicleRepositoryTest {
     @Test
     public void testFindVehicleNotFound() {
         // When
-        Optional<Vehicle> foundVehicle = vehicleRepository.findByMakeAndModelIgnoreCase("Ferrari", "Enzo");
+        Optional<Vehicle> foundVehicle = vehicleRepository.findByMakeIgnoreCaseAndModelIgnoreCase("Ferrari", "Enzo");
 
         // Then
         assertThat(foundVehicle).isEmpty();
