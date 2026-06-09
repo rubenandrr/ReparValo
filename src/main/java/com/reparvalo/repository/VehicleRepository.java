@@ -18,11 +18,11 @@ import org.springframework.stereotype.Repository;
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
     /**
-     * Finds a vehicle in the database matching the specified make and model, ignoring case.
+     * Finds a vehicle in the database matching the specified make and model, ignoring case for both.
      * 
      * @param make the manufacturer name (e.g., "Volkswagen")
      * @param model the model name (e.g., "Golf")
      * @return an {@link Optional} containing the matched {@link Vehicle}, or empty if not found
      */
-    Optional<Vehicle> findByMakeAndModelIgnoreCase(String make, String model);
+    Optional<Vehicle> findByMakeIgnoreCaseAndModelIgnoreCase(String make, String model);
 }
