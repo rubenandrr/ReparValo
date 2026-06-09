@@ -18,3 +18,6 @@ Thumbs.db
 
 # Local configuration overrides
 application-local.properties
+
+# File of test API key
+test.py

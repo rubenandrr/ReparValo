@@ -2,11 +2,11 @@ package com.reparvalo.service;
 
 import com.reparvalo.model.DamageExtraction;
 import com.reparvalo.model.TradeInEstimation;
-import org.springframework.ai.chat.ChatClient;
-import org.springframework.ai.chat.ChatResponse;
+import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
-import org.springframework.ai.parser.BeanOutputParser;
+import org.springframework.ai.converter.BeanOutputConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 public class AiService {
 
     @Autowired
-    private ChatClient chatClient;
+    private ChatModel chatModel;
 
     /**
      * Analyzes free-form text detailing car damage and extracts matching database part names.
@@ -32,7 +32,7 @@ public class AiService {
      */
     public DamageExtraction extractDamages(String userText) {
         // Initialize the output parser for DamageExtraction class
-        BeanOutputParser<DamageExtraction> parser = new BeanOutputParser<>(DamageExtraction.class);
+        BeanOutputConverter<DamageExtraction> parser = new BeanOutputConverter<>(DamageExtraction.class);
         String formatInstructions = parser.getFormat();
 
         // Create prompt template requesting structured JSON conforming to the schema
@@ -56,11 +56,11 @@ public class AiService {
         template.add("formatInstructions", formatInstructions);
 
         Prompt prompt = template.create();
-        ChatResponse response = chatClient.call(prompt);
-        String responseContent = response.getResult().getOutput().getContent();
+        ChatResponse response = chatModel.call(prompt);
+        String responseContent = response.getResult().getOutput().getText();
 
         // Parse and return the structured object
-        return parser.parse(responseContent);
+        return parser.convert(responseContent);
     }
 
     /**
@@ -110,7 +110,7 @@ public class AiService {
         template.add("finalOffer", estimation.getFinalOffer());
 
         Prompt prompt = template.create();
-        ChatResponse response = chatClient.call(prompt);
-        return response.getResult().getOutput().getContent();
+        ChatResponse response = chatModel.call(prompt);
+        return response.getResult().getOutput().getText();
     }
 }

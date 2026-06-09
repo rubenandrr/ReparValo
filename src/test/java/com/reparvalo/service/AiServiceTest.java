@@ -7,9 +7,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.ai.chat.ChatClient;
-import org.springframework.ai.chat.ChatResponse;
-import org.springframework.ai.chat.Generation;
+import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.chat.model.Generation;
 import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.prompt.Prompt;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 public class AiServiceTest {
 
     @Mock
-    private ChatClient chatClient;
+    private ChatModel chatModel;
 
     @InjectMocks
     private AiService aiService;
@@ -50,10 +50,10 @@ public class AiServiceTest {
         Generation mockGeneration = mock(Generation.class);
         AssistantMessage mockAssistantMessage = mock(AssistantMessage.class);
 
-        when(chatClient.call(any(Prompt.class))).thenReturn(mockResponse);
+        when(chatModel.call(any(Prompt.class))).thenReturn(mockResponse);
         when(mockResponse.getResult()).thenReturn(mockGeneration);
         when(mockGeneration.getOutput()).thenReturn(mockAssistantMessage);
-        when(mockAssistantMessage.getContent()).thenReturn(mockJsonResponse);
+        when(mockAssistantMessage.getText()).thenReturn(mockJsonResponse);
 
         // When
         DamageExtraction result = aiService.extractDamages("I scraped the right side of my car against a wall.");
@@ -91,10 +91,10 @@ public class AiServiceTest {
         Generation mockGeneration = mock(Generation.class);
         AssistantMessage mockAssistantMessage = mock(AssistantMessage.class);
 
-        when(chatClient.call(any(Prompt.class))).thenReturn(mockResponse);
+        when(chatModel.call(any(Prompt.class))).thenReturn(mockResponse);
         when(mockResponse.getResult()).thenReturn(mockGeneration);
         when(mockGeneration.getOutput()).thenReturn(mockAssistantMessage);
-        when(mockAssistantMessage.getContent()).thenReturn(mockReport);
+        when(mockAssistantMessage.getText()).thenReturn(mockReport);
 
         // When - Requesting report in French
         String report = aiService.generateTradeInReport(mockEstimation, true);
